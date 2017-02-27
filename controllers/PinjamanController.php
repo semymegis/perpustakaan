@@ -65,38 +65,42 @@ class PinjamanController extends Controller
      */
     public function actionView($id)
     {
-            if(!Yii::$app->user->isGuest ) {
-        $model = new Pinjaman();
-        $date = strtotime("now");
-        $user_id = Yii::$app->user->identity->id;
-        $sql = Yii::$app->db->createCommand(sprintf("insert into pinjaman values($date,$id,DEFAULT,$user_id) "));
 
-        $rows = (new \yii\db\Query())
-        ->select(['id_buku', 'id_user'])
-        ->from('pinjaman')
-        ->where(['id_user' => $user_id , 'id_buku' => $id ])
-        ->all();
-        $buku = Buku::find()->where(['id_buku' => $id])->one();
-        $count_val=count($rows);
+         $this->findModel($id);
 
 
+        if(!Yii::$app->user->isGuest ) {
+    $model = new Pinjaman();
+    $date = strtotime("now");
+    $user_id = Yii::$app->user->identity->id;
+    $sql = Yii::$app->db->createCommand(sprintf("insert into pinjaman values($date,$id,DEFAULT,$user_id) "));
 
-        if($count_val==0) {
-            $sql->execute();
-            $status = "<div class='alert alert-success'>Berhasil</div>";
-        } else {
-            $status = "<div class='alert alert-danger'>Gagal, anda sudah pernah meminjam buku.</div>"  ;
-        }
+    $rows = (new \yii\db\Query())
+    ->select(['id_buku', 'id_user'])
+    ->from('pinjaman')
+    ->where(['id_user' => $user_id , 'id_buku' => $id ])
+    ->all();
+    $buku = Buku::find()->where(['id_buku' => $id])->one();
+    $count_val=count($rows);
 
-        return $this->render('view', [
-            'model' => $model,
-            'teks' => $status,
-            'buku' => $buku,
-        ]);
 
+
+    if($count_val==0) {
+        $sql->execute();
+        $status = "<div class='alert alert-success'>Berhasil</div>";
     } else {
-        return $this->redirect(['index']);
+        $status = "<div class='alert alert-danger'>Gagal, anda sudah pernah meminjam buku.</div>"  ;
     }
+
+    return $this->render('view', [
+        'model' => $model,
+        'teks' => $status,
+        'buku' => $buku,
+    ]);
+
+} else {
+    return $this->redirect(['index']);
+}
     }
 
     /**
@@ -158,7 +162,7 @@ class PinjamanController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Pinjaman::findOne($id)) !== null) {
+        if (($model = Buku::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
