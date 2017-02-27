@@ -1,9 +1,11 @@
 <?php
 /* @var $this yii\web\View */
-
+use yii\helpers\Html;
 $this->title = "Welcome to Library";
 ?>
+<style>
 
+</style>
 <!-- Page Content -->
 <div class="container">
 
@@ -34,7 +36,7 @@ $this->title = "Welcome to Library";
 
         <div class="col-md-3 col-sm-6">
             <div class="thumbnail">
-            <a href="buku/view/<?= $buku->id_buku?>" class="btn btn-primary">
+            <a href="buku/view/<?= $buku->id_buku?>" class="btn btn-primary" border="0">
                 <?php
 
                 if($buku['photo']=="") {
@@ -47,7 +49,7 @@ $this->title = "Welcome to Library";
                  ?>
 
 
-                    <img src="<?= $gbr; ?>" alt="" border="0" width="300" height="500" class="img-responsive">
+                    <img src="<?= $gbr; ?>" alt=""  width="300" height="300" >
 
                 </a>
                 <div class="caption">
@@ -55,6 +57,8 @@ $this->title = "Welcome to Library";
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                     <p>
                         <a href="buku/view/<?= $buku['id_buku'] ?>" class="btn btn-primary">Detail</a>
+                        <?php echo Yii::$app->user->isGuest ? '' : ( Html::a('Pinjam', ['pinjaman/view/'.$buku->id_buku], ['class' => 'btn btn-success']));?>
+
                     </p>
                 </div>
             </div>

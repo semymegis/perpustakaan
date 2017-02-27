@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Buku;
+//use app\models\Kategori;
 use app\models\bukuSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -25,6 +26,7 @@ class BukuController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
+
             ],
         ];
     }
@@ -65,18 +67,32 @@ class BukuController extends Controller
     {
         $model = new Buku();
 
+        $model->scenario = 'create';
+
+
         if ($model->load(Yii::$app->request->post())) {
-            $model->photo = \yii\web\UploadedFile::getInstance($model,'photo');
 
 
-            if($model->validate()) {
-                $saveTo = 'uploads/'. $model->photo->baseName . '.' . $model->photo->extension;
-                if($model->photo->saveAs($saveTo)) {
-                    $model->save(false);
-                    Yii::$app->session->setFlash('success','Foto berhasil diupload');
-                    return $this->redirect(['view', 'id' => $model->id_buku]);
+                //$model->created = date();  // Added this.
+                $waktu = time();
+                $model->photo = \yii\web\UploadedFile::getInstance($model,'photo');
+                if($model->validate()) {
+
+
+                    $saveTo = 'uploads/'. $waktu. '.' . $model->photo->extension;
+                    if($model->photo->saveAs($saveTo)) {
+
+                        $model->photo = $waktu. '.' .$model->photo->extension;
+                        $model->save();
+                        return $this->redirect(['view', 'id' => $model->id_buku]);
+                    } else {
+                        return 'folder tidak ada';
+                    }
+                }else{
+                    return $this->render('create', [
+                        'model' => $model,
+                    ]);
                 }
-            }
 
         } else {
 
@@ -97,13 +113,48 @@ class BukuController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->scenario = 'update';
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_buku]);
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->id_buku]);
+        // } else {
+        //     return $this->render('update', [
+        //         'model' => $model,
+        //     ]);
+        // }
+        $waktu = time();
+        if ($model->load(Yii::$app->request->post())) {
+
+
+                //$model->created = date();  // Added this.
+
+
+                $model->photo = \yii\web\UploadedFile::getInstance($model,'photo');
+                if($model->validate()) {
+
+                    $saveTo = 'uploads/'. $waktu. '.' . $model->photo->extension;
+                    if($model->photo->saveAs($saveTo)) {
+
+                            unlink("uploads/".$model->photo);
+
+                        $model->photo = $waktu. '.' .$model->photo->extension;
+                        $model->save();
+                         return $this->redirect(['view', 'id' => $model->id_buku]);
+                    } else {
+                        return 'folder tidak ada';
+                    }
+                }else{
+                    return $this->render('update', [
+                        'model' => $model,
+                    ]);
+                }
+
         } else {
+
             return $this->render('update', [
                 'model' => $model,
             ]);
+
         }
     }
 
@@ -115,6 +166,14 @@ class BukuController extends Controller
      */
     public function actionDelete($id)
     {
+        $model = Buku::findOne($id);
+
+        if(file_exists("uploads/".$model->photo)) {
+            unlink("uploads/".$model->photo);
+        }
+
+
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -135,4 +194,8 @@ class BukuController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+
+
 }

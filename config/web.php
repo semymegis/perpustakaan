@@ -4,6 +4,7 @@ $params = require(__DIR__ . '/params.php');
 
 $config = [
     'id' => 'basic',
+     'timeZone' => 'Asia/Jakarta',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'defaultRoute' => 'default',
@@ -80,6 +81,9 @@ $config = [
                 '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
             ],
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
         'db' => require(__DIR__ . '/db.php'),
         /*
         'urlManager' => [
@@ -96,10 +100,18 @@ $config = [
         'allowActions' => [
             'default/*',
             'buku/index',
+            'kategori/index',
+            'kategori/view',
             'buku/view',
+            'pinjaman/view',
+            'pinjaman/index',
             'gii/*',
             'user/security/logout',
-            '*'
+            'user/registration/register',
+            'user/registration/resend',
+
+
+
 
             // The actions listed here will be allowed to everyone including guests.
             // So, 'admin/*' should not appear here in the production, of course.

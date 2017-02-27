@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 $this->title = 'Buku';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="buku-index">
+<div class="buku-index rows">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php  ?>
     <p>
         <?php echo Yii::$app->user->isGuest ? '' : ( Html::a('Create Buku', ['create'], ['class' => 'btn btn-success']));?>
+        <?php echo Yii::$app->user->isGuest ? '' : ( Html::a('Kategori Buku', ['../web/kategori'], ['class' => 'btn btn-primary']));?>
     </p>
 
 <?php Pjax::begin(); ?>    <?= GridView::widget([
@@ -29,6 +30,21 @@ $this->params['breadcrumbs'][] = $this->title;
             'id_buku',
             'nama',
             'tahun',
+            [
+             'attribute' => 'photo',
+             'format' => 'raw',
+
+             'value' => function ($model) {
+                     return "<center><img src='uploads/$model->photo' class='img-thumbnail img-responsive' width='100' align='center' /> </center>";
+
+                    },
+            ],
+            [
+        	'attribute' => 'id_kat',
+        	'value' => function($data) {
+        		return $data->kategori->nama;
+        	}
+        ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

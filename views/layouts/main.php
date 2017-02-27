@@ -8,6 +8,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use mdm\admin\components\Helper;
 
 AppAsset::register($this);
 ?>
@@ -33,24 +34,55 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right','innerContainerOptions' => ['class'=>'container-fluid']],
-            'encodeLabels' => false,
-            'items' => [
-                Yii::$app->user->isGuest ? ( "" ) : (
-                    ['label' => 'Dashboard', 'url' => ['/dashboard/index']]
-                ),
-            ['label' => 'Home', 'url' => ['/default']],
-            ['label' => 'Indeks Buku', 'url' => ['/buku']],
-            Yii::$app->user->isGuest ?
-            ['label' => 'Sign in', 'url' => ['/user/security/login']] :
-            ['label' => 'Sign out (' . Yii::$app->user->identity->username . ')',
-                'url' => ['/user/security/logout'],
-                'linkOptions' => ['data-method' => 'post']],
+    // echo Nav::widget([
+    //     'options' => ['class' => 'navbar-nav navbar-right','innerContainerOptions' => ['class'=>'container-fluid']],
+    //         'encodeLabels' => false,
+    //         'items' => [
+    //             Yii::$app->user->isGuest ? ( "" ) : (
+    //                 ['label' => 'Dashboard', 'url' => ['/dashboard/index']]
+    //             ),
+    //         ['label' => 'Home', 'url' => ['/default']],
+    //
+    //         ['label' => 'Indeks Buku', 'url' => ['/buku']],
+    //         Yii::$app->user->isGuest ?
+    //         ['label' => 'Sign in', 'url' => ['/user/security/login']] :
+    //         ['label' => 'Sign out (' . Yii::$app->user->identity->username . ')',
+    //             'url' => ['/user/security/logout'],
+    //             'linkOptions' => ['data-method' => 'post']],
+    //
+    //
+    //     ],
+    // ]);
+
+    $dash ="";
+    if(!Yii::$app->user->isGuest ) {
+        if(Yii::$app->user->identity->username == "semy") {
+         $dash = ['label' => 'Dashboard', 'url' => ['/dashboard/index']];
+        }
+
+    }
 
 
-        ],
-    ]);
+    $menuItems = [
+
+                $dash,
+               ['label' => 'Home', 'url' => ['/default']],
+               Yii::$app->user->isGuest ?  '' :['label' => 'Peminjaman', 'url' => ['/pinjaman']],
+               ['label' => 'Indeks Buku', 'url' => ['/buku']],
+               Yii::$app->user->isGuest ?
+               ['label' => 'Sign in', 'url' => ['/user/security/login']] :
+               ['label' => 'Sign out (' . Yii::$app->user->identity->username . ')',
+                   'url' => ['/user/security/logout'],
+                   'linkOptions' => ['data-method' => 'post']],
+
+];
+
+// $menuItems = Helper::filter($menuItems);
+
+echo Nav::widget([
+    'options' => ['class' => 'navbar-nav navbar-right'],
+    'items' => $menuItems,
+]);
     NavBar::end();
     ?>
 

@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use kartik\widgets\Select2;
+use app\models\Kategori;
 /* @var $this yii\web\View */
 /* @var $model app\models\Buku */
 /* @var $form yii\widgets\ActiveForm */
@@ -13,6 +14,16 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin([
         'options' => ['enctype' => 'multipart/form-data']
     ]); ?>
+
+        <?= $form->field($model, 'id_kat')->widget(Select2::classname(), [
+            'data' => \yii\helpers\ArrayHelper::map(Kategori::find()->all(),'id','nama'),
+            'options' => ['placeholder' => 'Pilih Kategori'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ]);
+
+    ?>
 
     <?= $form->field($model, 'nama')->textInput(['maxlength' => true]) ?>
 

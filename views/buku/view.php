@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="buku-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($model->nama) ?> <?= $model->tahun ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id_buku], ['class' => 'btn btn-primary']) ?>
@@ -25,12 +25,23 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
+    <?= Html::img('@web/uploads/'.$model->photo, [
+        'class' => 'img img-thumbnail',
+        'width' => '150',
+        'style' => 'margin-bottom:10px'
+    ]); ?>
+
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+
             'id_buku',
             'nama',
             'tahun',
+            [
+                'attribute' => 'id_kat',
+                'value' => $model->kategori->nama,
+            ]
         ],
     ]) ?>
 

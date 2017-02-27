@@ -29,12 +29,23 @@ class Buku extends \yii\db\ActiveRecord
         return [
             [['nama'], 'string', 'max' => 255],
             [['tahun'], 'string', 'max' => 55],
-            [['nama','tahun'], 'required'],
-            [['photo'], 'file', 'extensions' => ['png','jpg','gif'], 'maxSize' => 1024*1024],
+            [['nama','tahun', 'id_kat', 'photo'], 'required' ],
+            [['nama'], 'unique'],
+            [['nama', 'tahun', 'id_kat'], 'required', 'on' => 'create'],
+
+
 
 
 
         ];
+    }
+
+    public function scenarios()
+    {
+		$scenarios = parent::scenarios();
+        $scenarios['create'] = ['nama','tahun','id_kat','photo'];//Scenario Values Only Accepted
+        $scenarios['update'] = ['nama','tahun','id_kat'];
+        return $scenarios;
     }
 
     /**
@@ -47,6 +58,7 @@ class Buku extends \yii\db\ActiveRecord
             'nama' => 'Nama',
             'tahun' => 'Tahun',
             'photo' => 'Photo',
+            'id_kat' => 'Kategori'
         ];
     }
 
@@ -58,4 +70,10 @@ class Buku extends \yii\db\ActiveRecord
     {
         return new BukuQuery(get_called_class());
     }
+        public function getKategori()
+    {
+        return $this->hasOne(Kategori::className(), ['id' => 'id_kat']);
+    }
+
+
 }
