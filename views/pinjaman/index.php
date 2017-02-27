@@ -68,11 +68,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'id_buku',
             'format' => 'raw',
             'value' => function ($data) {
-                    return "<center><img src='uploads/".$data->idBuku->photo. "' class='img-thumbnail img-responsive' width='100' align='center' /> </center>";
-
+                    return Html::img('@web/uploads/'.$data->idBuku->photo, ['width' => '100']);    
                    },
             ],
-             
+
 
         ],
     ]); ?>

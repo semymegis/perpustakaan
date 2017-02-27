@@ -33,11 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
              'attribute' => 'photo',
              'format' => 'raw',
-
              'value' => function ($model) {
-                     return "<center><img src='uploads/$model->photo' class='img-thumbnail img-responsive' width='100' align='center' /> </center>";
+                    return Html::img('@web/uploads/'.$model->photo, ['width' => '100']);
 
-                    },
+                },
             ],
             [
         	'attribute' => 'id_kat',

@@ -19,7 +19,7 @@ class bukuSearch extends Buku
     {
         return [
             [['id_buku'], 'integer'],
-            [['nama', 'tahun'], 'safe'],
+            [['nama', 'tahun','photo'], 'safe'],
         ];
     }
 
