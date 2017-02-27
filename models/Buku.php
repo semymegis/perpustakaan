@@ -32,7 +32,7 @@ class Buku extends \yii\db\ActiveRecord
             [['nama','tahun', 'id_kat', 'photo'], 'required' ],
             [['nama'], 'unique'],
             [['nama', 'tahun', 'id_kat'], 'required', 'on' => 'create'],
-
+            [['photo'], 'file', 'extensions' => 'png, jpg'],
 
 
 

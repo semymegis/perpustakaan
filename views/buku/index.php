@@ -14,8 +14,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php
+    $ket =  Yii::$app->getRequest()->getQueryParam('ket');
+     if($ket) {
+         echo '<div class="alert alert-danger">';
+         echo $ket;
+         echo "</div>";
+     }
 
-    <?php  ?>
+ ?>
     <p>
         <?php echo Yii::$app->user->isGuest ? '' : ( Html::a('Create Buku', ['create'], ['class' => 'btn btn-success']));?>
         <?php echo Yii::$app->user->isGuest ? '' : ( Html::a('Kategori Buku', ['../web/kategori'], ['class' => 'btn btn-primary']));?>

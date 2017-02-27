@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Buku;
-//use app\models\Kategori;
+use app\models\Pinjaman;
 use app\models\bukuSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -169,17 +169,35 @@ class BukuController extends Controller
      */
     public function actionDelete($id)
     {
-        $model = Buku::findOne($id);
 
-        if(file_exists("uploads/".$model->photo)) {
-            //unlink("uploads/".$model->photo);
+        $searchModel = new bukuSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+
+
+        $model = Buku::findOne($id);
+        $cek = Pinjaman::find()
+        ->where(['id_buku' => $id])
+        ->count();
+
+        if($cek==0) { //kalo ga ada
+            if(file_exists("uploads/".$model->photo)) {
+                unlink("uploads/".$model->photo);
+            }
+            $this->findModel($id)->delete();
+            return $this->redirect(['index']);
+        }
+        else { // kalau ada yg pinjem
+            return $this->redirect(['index?ket=Sedang dalam peminjaman']);
         }
 
 
 
-        $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+
+        //
+
+
     }
 
     /**
