@@ -13,6 +13,10 @@ use Yii;
  */
 class Buku extends \yii\db\ActiveRecord
 {
+
+    const SCENARIO_CREATE = 'create';
+   const SCENARIO_UPDATE= 'update';
+
     /**
      * @inheritdoc
      */
@@ -29,10 +33,11 @@ class Buku extends \yii\db\ActiveRecord
         return [
             [['nama'], 'string', 'max' => 255],
             [['tahun'], 'string', 'max' => 55],
-            [['nama','tahun', 'id_kat', 'photo'], 'required' ],
+            [['nama','tahun', 'id_kat', 'photo'], 'required' ,'on' => 'create' ],
             [['nama'], 'unique'],
             [['nama', 'tahun', 'id_kat'], 'required', 'on' => 'create'],
-            [['photo'], 'file', 'extensions' => 'png, jpg'],
+            [['photo'], 'file', 'extensions' => 'png, jpg',  'on' => 'create'],
+            [['photo'], 'file', 'extensions' => 'png, jpg',  'on' => 'update'],
 
 
 
@@ -44,7 +49,8 @@ class Buku extends \yii\db\ActiveRecord
     {
 		$scenarios = parent::scenarios();
         $scenarios['create'] = ['nama','tahun','id_kat','photo'];//Scenario Values Only Accepted
-        $scenarios['update'] = ['nama','tahun','id_kat'];
+        $scenarios['update'] = ['nama','tahun','id_kat','photo'];
+
         return $scenarios;
     }
 
