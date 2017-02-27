@@ -4,7 +4,9 @@ use yii\helpers\Html;
 $this->title = "Welcome to Library";
 ?>
 <style>
-
+.thumbnail a > img {
+height: 100px;
+}
 </style>
 <!-- Page Content -->
 <div class="container">
@@ -46,10 +48,12 @@ $this->title = "Welcome to Library";
                     $gbr = "uploads/".$buku->photo;
                 }
 
+
+                echo Html::img("@web/".$gbr, ['style' => 'height:350px !important; width:100%;'])
                  ?>
 
 
-                    <img src="<?= $gbr; ?>" alt=""  width="300" height="300" >
+
 
                 </a>
                 <div class="caption">

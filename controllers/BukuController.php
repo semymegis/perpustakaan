@@ -9,6 +9,7 @@ use app\models\bukuSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\imagine\Image;
 
 /**
  * BukuController implements the CRUD actions for Buku model.
