@@ -122,32 +122,35 @@ class BukuController extends Controller
         //         'model' => $model,
         //     ]);
         // }
+
+        $lama = Buku::findOne($id);
+
         $waktu = time();
         if ($model->load(Yii::$app->request->post())) {
-
-
-                //$model->created = date();  // Added this.
-
 
                 $model->photo = \yii\web\UploadedFile::getInstance($model,'photo');
                 if($model->validate()) {
 
-                    $saveTo = 'uploads/'. $waktu. '.' . $model->photo->extension;
-                    if($model->photo->saveAs($saveTo)) {
 
-                            unlink("uploads/".$model->photo);
+                        if($model->photo) {
+                            unlink("uploads/".$lama->photo);
+                            $saveTo = 'uploads/'. $waktu. '.' . $model->photo->extension;
+                            $model->photo->saveAs($saveTo);
+                            $model->photo = $waktu. '.' .$model->photo->extension;
+                            $model->save();
+                            return $this->redirect(['view', 'id' => $id]);
+                        }
+                        else {
+                            $model->photo = $lama->photo;
+                            $model->save();
+                            return $this->redirect(['view', 'id' => $id]);
+                        }
 
-                        $model->photo = $waktu. '.' .$model->photo->extension;
-                        $model->save();
-                         return $this->redirect(['view', 'id' => $model->id_buku]);
-                    } else {
-                        return 'folder tidak ada';
-                    }
-                }else{
-                    return $this->render('update', [
-                        'model' => $model,
-                    ]);
-                }
+                                        } else {
+                                        return $this->render('update', [
+                                            'model' => $model,
+                                        ]);
+                                    }
 
         } else {
 
@@ -169,7 +172,7 @@ class BukuController extends Controller
         $model = Buku::findOne($id);
 
         if(file_exists("uploads/".$model->photo)) {
-            unlink("uploads/".$model->photo);
+            //unlink("uploads/".$model->photo);
         }
 
 
