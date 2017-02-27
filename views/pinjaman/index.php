@@ -17,7 +17,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
+    <?php
 
+    if(Yii::$app->user->identity->username == "semy") {
+        $kls = "class";
+     $kelas = "yii\grid\ActionColumn";
+    }
+    else {
+    $kls = "";
+    $kelas ="";
+    }
+
+    ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -61,8 +72,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                    },
             ],
+             
 
-            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>

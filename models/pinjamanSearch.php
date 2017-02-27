@@ -57,12 +57,20 @@ class pinjamanSearch extends Pinjaman
             return $dataProvider;
         }
 
+        $ids ="";
+        if(!Yii::$app->user->isGuest ) {
+
+             $ids = Yii::$app->user->identity->id;
+
+
+        }
+
         // grid filtering conditions
         $query->andFilterWhere([
             'tgl' => $this->tgl,
             'id_buku' => $this->id_buku,
 
-            'id_user' => Yii::$app->user->identity->id,
+            'id_user' => $ids,
         ]);
 
         return $dataProvider;

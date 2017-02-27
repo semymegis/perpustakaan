@@ -65,6 +65,7 @@ class PinjamanController extends Controller
      */
     public function actionView($id)
     {
+            if(!Yii::$app->user->isGuest ) {
         $model = new Pinjaman();
         $date = strtotime("now");
         $user_id = Yii::$app->user->identity->id;
@@ -93,7 +94,9 @@ class PinjamanController extends Controller
             'buku' => $buku,
         ]);
 
-
+    } else {
+        return $this->redirect(['index']);
+    }
     }
 
     /**
@@ -162,5 +165,5 @@ class PinjamanController extends Controller
         }
     }
 
-    
+
 }
