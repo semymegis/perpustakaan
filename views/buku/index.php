@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?php echo Yii::$app->user->isGuest ? '' : ( Html::a('Create Buku', ['create'], ['class' => 'btn btn-success']));?>
         <?php echo Yii::$app->user->isGuest ? '' : ( Html::a('Kategori Buku', ['../web/kategori'], ['class' => 'btn btn-primary']));?>
+        <?php echo Yii::$app->user->isGuest ? '' : ( Html::a('Penerbit Buku', ['../web/penerbit'], ['class' => 'btn btn-warning']));?>
     </p>
 
 <?php Pjax::begin(); ?>    <?= GridView::widget([

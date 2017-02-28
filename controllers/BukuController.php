@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use Yii;
+use yii\helpers\Json;
 use app\models\Buku;
+use app\models\Penerbit;
 use app\models\Pinjaman;
 use app\models\bukuSearch;
 use yii\web\Controller;
@@ -103,6 +105,22 @@ class BukuController extends Controller
 
         }
 
+    }
+
+    public function actionPenerbit()
+    {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $kategori = $parents[0];
+                $out = Penerbit::find()->where(['id_kat' => $kategori])->select(['id','penerbit as name'])->asArray()->all();
+
+                echo Json::encode(['output'=>$out, 'selected'=>'']);
+                return;
+            }
+        }
+        echo Json::encode(['output'=>'', 'selected'=>'']);
     }
 
     /**

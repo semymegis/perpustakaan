@@ -35,7 +35,7 @@ class Buku extends \yii\db\ActiveRecord
             [['tahun'], 'string', 'max' => 55],
             [['nama','tahun', 'id_kat', 'photo'], 'required' ,'on' => 'create' ],
             [['nama'], 'unique'],
-            [['nama', 'tahun', 'id_kat'], 'required', 'on' => 'create'],
+            [['nama', 'tahun', 'id_kat','id_penerbit'], 'required', 'on' => 'create'],
             [['photo'], 'file', 'extensions' => 'png, jpg',  'on' => 'create'],
             [['photo'], 'file', 'extensions' => 'png, jpg',  'on' => 'update'],
 
@@ -48,8 +48,8 @@ class Buku extends \yii\db\ActiveRecord
     public function scenarios()
     {
 		$scenarios = parent::scenarios();
-        $scenarios['create'] = ['nama','tahun','id_kat','photo'];//Scenario Values Only Accepted
-        $scenarios['update'] = ['nama','tahun','id_kat','photo'];
+        $scenarios['create'] = ['nama','tahun','id_kat','photo','id_penerbit'];//Scenario Values Only Accepted
+        $scenarios['update'] = ['nama','tahun','id_kat','photo','id_penerbit'];
 
         return $scenarios;
     }
@@ -64,7 +64,8 @@ class Buku extends \yii\db\ActiveRecord
             'nama' => 'Nama',
             'tahun' => 'Tahun',
             'photo' => 'Photo',
-            'id_kat' => 'Kategori'
+            'id_kat' => 'Kategori',
+            'id_penerbit' => 'Penerbit'
         ];
     }
 
@@ -80,6 +81,10 @@ class Buku extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Kategori::className(), ['id' => 'id_kat']);
     }
+
+
+
+
 
 
 }

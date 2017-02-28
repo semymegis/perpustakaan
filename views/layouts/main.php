@@ -67,8 +67,9 @@ AppAsset::register($this);
 
                 $dash,
                ['label' => 'Home', 'url' => ['/default']],
-               Yii::$app->user->isGuest ?  '' :['label' => 'Peminjaman', 'url' => ['/pinjaman']],
+               Yii::$app->user->isGuest ? '' :['label' => 'Peminjaman', 'url' => ['/pinjaman']],
                ['label' => 'Indeks Buku', 'url' => ['/buku']],
+              
                Yii::$app->user->isGuest ?
                ['label' => 'Sign in', 'url' => ['/user/security/login']] :
                ['label' => 'Sign out (' . Yii::$app->user->identity->username . ')',

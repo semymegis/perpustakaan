@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'tgl',
             'header' => 'Batas waktu',
             'value' => function($data) {
-                $diff=strtotime("+3 days") - $data->tgl;
+                $diff=$data->expires - time();
                 $days=floor($diff/3600/24);
                 $hours=floor(($diff-$days*3600*24)/3600);
                 $mins=floor(($diff-$days*3600*24-$hours*3600)/60);
@@ -68,7 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'id_buku',
             'format' => 'raw',
             'value' => function ($data) {
-                    return Html::img('@web/uploads/'.$data->idBuku->photo, ['width' => '100']);    
+                    return Html::img('@web/uploads/'.$data->idBuku->photo, ['width' => '100']);
                    },
             ],
 
