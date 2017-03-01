@@ -73,8 +73,8 @@ class PinjamanController extends Controller
     $model = new Pinjaman();
     $date = strtotime("now");
     $user_id = Yii::$app->user->identity->id;
-    $exp = strtotime("+3 days");
-    $sql = Yii::$app->db->createCommand(sprintf("insert into pinjaman values($date,$id,DEFAULT,$user_id,$exp) "));
+    $exps = strtotime("+3 days");
+    $sql = Yii::$app->db->createCommand(sprintf("insert into pinjaman values($date,$id,DEFAULT,$user_id,$exps) "));
 
     $rows = (new \yii\db\Query())
     ->select(['id_buku', 'id_user'])

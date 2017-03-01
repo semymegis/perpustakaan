@@ -59,7 +59,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 $hours=floor(($diff-$days*3600*24)/3600);
                 $mins=floor(($diff-$days*3600*24-$hours*3600)/60);
                 $seconds=$diff-$days*3600*24-$hours*3600-$mins*60;
-        		return $days." hari ".$hours." jam ".$mins." menit ". $seconds." detik lagi";
+                    if($data->expires > time()) {
+        		        return $days." hari ".$hours." jam ".$mins." menit ". $seconds." detik lagi";
+                    } else {
+                        return "EXPIRED";
+                    }
         	}
             ],
 
